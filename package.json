@@ -4,7 +4,8 @@
   "description": "Reflection on identity.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "truffle": "./node_modules/.bin/truffle"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/xavierlepretre/secquoia-id/issues"
   },
-  "homepage": "https://github.com/xavierlepretre/secquoia-id#readme"
+  "homepage": "https://github.com/xavierlepretre/secquoia-id#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "ipfs-api": "^14.0.0",
+    "ipld-dag-pb": "^0.11.0",
+    "truffle-contract": "^2.0.0"
+  },
+  "devDependencies": {
+    "truffle": "^3.2.1"
+  }
 }
