@@ -1,0 +1,19 @@
+{
+  "name": "secquoia-id",
+  "version": "1.0.0",
+  "description": "Reflection on identity.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xavierlepretre/secquoia-id.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xavierlepretre/secquoia-id/issues"
+  },
+  "homepage": "https://github.com/xavierlepretre/secquoia-id#readme"
+}
