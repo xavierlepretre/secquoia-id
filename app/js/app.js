@@ -20,8 +20,9 @@ const cityHall = require("./city_hall.js");
 require("file-loader?name=../index.html!../index.html");
 require("file-loader?name=../city_hall.html!../city_hall.html");
 require("file-loader?name=../me.html!../me.html");
+require("file-loader?name=../night_club.html!../night_club.html");
 
-window.addEventListener('load', function() {
+$(document).ready(function() {
     if (typeof web3 === "undefined") {
         var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     }
@@ -38,7 +39,12 @@ window.addEventListener('load', function() {
         });
 });
 
+// City Hall
+
 $(".dob_reg .dob_sign").click(() => {
+    Promise.promisifyAll(web3.eth, { suffix: "Promise" });
+    Identity.setProvider(web3.currentProvider);
+
     const address = $(".city_hall input[name='address']").val();
     const dob = $(".city_hall input[name='dob']").val();
     const nonce = $(".city_hall input[name='nonce']").val();
@@ -73,7 +79,7 @@ $(".dob_reg .dob_sign").click(() => {
         })
         .then(dagNode => {
             console.log(dagNode.toJSON());
-            $("#status").html("Saved in IPFS");
+            $("#status").html("Saved in IPFS: " + dagNode.toJSON().multihash);
         })
         .catch(e => {
             console.error(e);
@@ -81,7 +87,12 @@ $(".dob_reg .dob_sign").click(() => {
         });
 });
 
+// Me
+
 $(".root_hash .save_top_hash").click(() => {
+    Promise.promisifyAll(web3.eth, { suffix: "Promise" });
+    Identity.setProvider(web3.currentProvider);
+
     const hash = $(".root_hash input[name='hash']").val();
     console.log(hash);
     return Identity.deployed()
@@ -126,6 +137,43 @@ $(".make_dag_node .create").click(() => {
         .then(dagNode => {
             $(".make_dag_node .dag_node").html(dagNode.toJSON().multihash);
             $("#status").html("Created");
+        })
+        .catch(e => {
+            console.error(e);
+            $("#status").html(e.message);
+        });
+});
+
+// Nightclub
+
+$(".dob_verification .dob_check").click(() => {
+    const hash = $(".dob_verification input[name='dob_node_hash']").val();
+    return ipfs.object.get(hash)
+        .then(dagNode => {
+            const valueLink = dagNode.links.find(link => link.toJSON().name === "value");
+            const sigLink = dagNode.links.find(link => link.toJSON().name === "sig");
+            if (dagNode.toJSON().data != "dob" ||
+                typeof valueLink === "undefined" ||
+                typeof sigLink === "undefined") {
+                throw new Error("This is not a DoB node");
+            }
+            return Promise.all([
+                ipfs.object.get(valueLink.toJSON().multihash),
+                ipfs.object.get(sigLink.toJSON().multihash)
+            ]);
+        })
+        .then(dagNodes => {
+            const valueDob = String.fromCharCode.apply(null, dagNodes[ 0 ].data);
+            const sigDob = String.fromCharCode.apply(null, dagNodes[ 1 ].data);
+            $(".dob_verification .value_dob").html(valueDob);
+            $(".dob_verification .sig").html(sigDob);
+            const value = JSON.parse(valueDob);
+            const dob = Date.parse(value.dob);
+            $(".dob_verification .dob").html(new Date(dob).toString());
+            const eighteen = 18 * 365 * 86400 * 1000;
+            $(".dob_verification .validity_age").html(dob + eighteen <= new Date().getTime());
+            const hash = web3.sha3(valueDob);
+            console.log("i");
         })
         .catch(e => {
             console.error(e);

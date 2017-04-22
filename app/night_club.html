@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Nightclub</title>
+<meta charset="utf-8">
+</head>
+<body>
+
+    <h1>Nightclub</h1>
+
+    <fieldset class="dob_verification">
+        <legend>Birth Check</legend>
+        <p>
+            <label for="dob_node_hash">DoB Node Hash:</label>
+            <input name="dob_node_hash" type="text">
+        </p>
+        <button class="dob_check">Check</button>
+        <p>Value: <span class="value_dob"></span></p>
+        <p>DoB:  <span class="dob"></span></p>
+        <p>Valid Age: <span class="validity_age"></span></p>
+        <p>Sig: <span class="sig"></span></p>
+        <p>Valid Sig: <span class="validity_sig"></span></p>
+    </fieldset>
+
+    <div id="status"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>
