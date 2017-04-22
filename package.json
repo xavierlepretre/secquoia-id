@@ -8,7 +8,8 @@
     "truffle": "./node_modules/.bin/truffle",
     "testrpc": "./node_modules/.bin/testrpc",
     "webpack": "./node_modules/.bin/webpack",
-    "srv": "./node_modules/.bin/webpack-dev-server --progress --colors"
+    "srv": "./node_modules/.bin/webpack-dev-server --progress --colors --port 8081",
+    "ipfs": "./ipfs_daemon.sh"
   },
   "repository": {
     "type": "git",
