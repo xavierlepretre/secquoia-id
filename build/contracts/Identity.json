@@ -1,0 +1,238 @@
+{
+  "contract_name": "Identity",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "hashes",
+      "outputs": [
+        {
+          "name": "hash",
+          "type": "string"
+        },
+        {
+          "name": "stolen",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "who",
+          "type": "address"
+        }
+      ],
+      "name": "markStolen",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "hash",
+          "type": "string"
+        }
+      ],
+      "name": "updateHash",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "name": "previous",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "name": "latest",
+          "type": "string"
+        }
+      ],
+      "name": "LogHashChanged",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x60606040525b60008054600160a060020a03191633600160a060020a03161790555b5b6103f0806100316000396000f300606060405263ffffffff60e060020a60003504166308e3399f811461004557806323d6838b146100ef5780638da5cb5b1461010a57806392dea92214610133575b610000565b346100005761005e600160a060020a0360043516610188565b6040805182151560208201528181528354600260001961010060018416150201909116049181018290529081906060820190859080156100df5780601f106100b4576101008083540402835291602001916100df565b820191906000526020600020905b8154815290600101906020018083116100c257829003601f168201915b5050935050505060405180910390f35b3461000057610108600160a060020a03600435166101a3565b005b34610000576101176101eb565b60408051600160a060020a039092168252519081900360200190f35b3461000057610108600480803590602001908201803590602001908080601f016020809104026020016040519081016040528093929190818152602001838380828437509496506101fa95505050505050565b005b60016020819052600091825260409091209081015460ff1682565b60005433600160a060020a039081169116146101be57610000565b600160a060020a03331660009081526001602081905260409091208101805460ff191690911790555b5b50565b600054600160a060020a031681565b600160a060020a03331660009081526001602081905260409091209081015460ff161561022657610000565b816040518082805190602001908083835b602083106102565780518252601f199092019160209182019101610237565b6001836020036101000a03801982511681845116808217855250505050505090500191505060405180910390208160000160405180828054600181600116156101000203166002900480156102e25780601f106102c05761010080835404028352918201916102e2565b820191906000526020600020905b8154815290600101906020018083116102ce575b50506040519081900381209250600160a060020a03331691507f6020f32af9ee934eede9833c55d4719a424909585d3a3fb7517a7045056716f390600090a481816000019080519060200190828054600181600116156101000203166002900490600052602060002090601f016020900481019282601f1061036f57805160ff191683800117855561039c565b8280016001018555821561039c579182015b8281111561039c578251825591602001919060010190610381565b5b506103bd9291505b808211156103b957600081556001016103a5565b5090565b50505b50505600a165627a7a72305820e2c2f092f8a02c84cdc33a29e06e8801ef03c37750deff421fd6a80968f031530029",
+  "networks": {
+    "3": {
+      "events": {
+        "0x6020f32af9ee934eede9833c55d4719a424909585d3a3fb7517a7045056716f3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "previous",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "name": "latest",
+              "type": "string"
+            }
+          ],
+          "name": "LogHashChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x0731a0ebe7da176f9c7d70b04a37f3ceaf240834",
+      "updated_at": 1492956767099
+    },
+    "42": {
+      "events": {
+        "0x6020f32af9ee934eede9833c55d4719a424909585d3a3fb7517a7045056716f3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "previous",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "name": "latest",
+              "type": "string"
+            }
+          ],
+          "name": "LogHashChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0xd214a6dd75b86e323bf736eb53ae2eccf019fedb",
+      "updated_at": 1492883513966
+    },
+    "1492861332114": {
+      "events": {
+        "0x6020f32af9ee934eede9833c55d4719a424909585d3a3fb7517a7045056716f3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "previous",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "name": "latest",
+              "type": "string"
+            }
+          ],
+          "name": "LogHashChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x1666cd6a4a4a50bf9c6fd7ae0ae60a329b077c51",
+      "updated_at": 1492861402488
+    },
+    "1492891874674": {
+      "events": {
+        "0x6020f32af9ee934eede9833c55d4719a424909585d3a3fb7517a7045056716f3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "previous",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "name": "latest",
+              "type": "string"
+            }
+          ],
+          "name": "LogHashChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x69b5d477ff791a62137602c8bc9bdd19a7e7116e",
+      "updated_at": 1492891924271
+    },
+    "1492945678749": {
+      "events": {
+        "0x6020f32af9ee934eede9833c55d4719a424909585d3a3fb7517a7045056716f3": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "name": "sender",
+              "type": "address"
+            },
+            {
+              "indexed": true,
+              "name": "previous",
+              "type": "string"
+            },
+            {
+              "indexed": true,
+              "name": "latest",
+              "type": "string"
+            }
+          ],
+          "name": "LogHashChanged",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x132547cdb8a9e30f39878c3f7a239543b95bea92",
+      "updated_at": 1492945705904
+    }
+  },
+  "schema_version": "0.0.5",
+  "updated_at": 1492956767099
+}
