@@ -1,6 +1,7 @@
 "use strict";
 
 const truffleContract = require("truffle-contract");
+const ethUtil = require("ethereumjs-util");
 const Promise = require("bluebird");
 const Ipfs = require('ipfs-api');
 const DAG = require('ipld-dag-pb');
@@ -14,6 +15,9 @@ const Identity = truffleContract(identityJson);
 Promise.promisifyAll(DAG.DAGLink, { suffix: "Promise" });
 Promise.promisifyAll(DAG.DAGNode, { suffix: "Promise" });
 
+Promise.promisifyAll(web3.eth, { suffix: "Promise" });
+Identity.setProvider(web3.currentProvider);
+
 const $ = require("jquery");
 const cityHall = require("./city_hall.js");
 
@@ -24,7 +28,7 @@ require("file-loader?name=../night_club.html!../night_club.html");
 
 $(document).ready(function() {
     if (typeof web3 === "undefined") {
-        var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
     }
 
     Promise.promisifyAll(web3.eth, { suffix: "Promise" });
@@ -32,10 +36,21 @@ $(document).ready(function() {
 
     return web3.eth.getAccountsPromise()
         .then(accounts => {
+            $("#status").html("Loaded");
             if (accounts.length > 0) {
                 $(".root_hash .save_top_hash").prop("disabled", false);
+            } else {
+                $(".root_hash .current_hash").html("NA");
+                return;
             }
-            $("#status").html("Loaded");
+            Identity.deployed(); // Do not remove, weird it needs this trigger
+            return Identity.deployed()
+                .then(instance => instance.hashes(accounts[ 0 ]))
+                .then(values => $(".root_hash .current_hash").html(values[ 0 ] + ", " + values[ 1 ]));
+        })
+        .catch(e => {
+            console.error(e);
+            $("#status").html(e.message);
         });
 });
 
@@ -90,19 +105,16 @@ $(".dob_reg .dob_sign").click(() => {
 // Me
 
 $(".root_hash .save_top_hash").click(() => {
-    Promise.promisifyAll(web3.eth, { suffix: "Promise" });
-    Identity.setProvider(web3.currentProvider);
+    // Promise.promisifyAll(web3.eth, { suffix: "Promise" });
+    // Identity.setProvider(web3.currentProvider);
 
     const hash = $(".root_hash input[name='hash']").val();
-    console.log(hash);
     return Identity.deployed()
-        .then(instance => {
-            return web3.eth.getAccountsPromise()
-                .then(accounts => {
-                    console.log(accounts);
-                    return instance.updateHash(hash, { from: accounts[ 0 ] });
-                });
-        })
+        .then(instance => web3.eth.getAccountsPromise()
+            .then(accounts => instance.updateHash(hash, { from: accounts[ 0 ] })
+            // .then(txObject => instance.hashes(accounts[ 0 ]))
+            // .then(values => $(".root_hash .current_hash").html(values[ 0 ] + ", " + values[ 1 ]))
+            ))
         .then(txObject => {
             console.log(txObject);
             $("#status").html(hash + " saved in block " + txObject.receipt.blockNumber);
@@ -137,6 +149,10 @@ $(".make_dag_node .create").click(() => {
         .then(dagNode => {
             $(".make_dag_node .dag_node").html(dagNode.toJSON().multihash);
             $("#status").html("Created");
+            return ipfs.object.put(dagNode);
+        })
+        .then(dagNode => {
+            $("#status").html("Stored");
         })
         .catch(e => {
             console.error(e);
@@ -168,12 +184,35 @@ $(".dob_verification .dob_check").click(() => {
             $(".dob_verification .value_dob").html(valueDob);
             $(".dob_verification .sig").html(sigDob);
             const value = JSON.parse(valueDob);
+            const address = value.address;
+            $(".dob_verification .address").html(address);
             const dob = Date.parse(value.dob);
             $(".dob_verification .dob").html(new Date(dob).toString());
             const eighteen = 18 * 365 * 86400 * 1000;
             $(".dob_verification .validity_age").html(dob + eighteen <= new Date().getTime());
-            const hash = web3.sha3(valueDob);
-            console.log("i");
+            const hash = web3.sha3(valueDob).slice(2, 66);
+            const r = sigDob.slice(2, 66);
+            const s = sigDob.slice(66, 130);
+            let v = sigDob.slice(130, 132);
+            const vBuf = new Buffer(v, 'hex');
+            v = ethUtil.bufferToInt(vBuf);
+            if (v == 0) v += 27;
+            const hashBuf = new Buffer(hash, 'hex');
+            const rBuf = new Buffer(r, 'hex');
+            const sBuf = new Buffer(s, 'hex');
+            const recovered = ethUtil.bufferToHex(
+                ethUtil.pubToAddress(
+                    ethUtil.ecrecover(
+                        hashBuf,
+                        v,
+                        rBuf,
+                        sBuf)));
+            $(".dob_verification .recovered").html(recovered);
+            return Identity.deployed()
+                .then(instance => instance.hashes(address));
+        })
+        .then(values => {
+            $(".dob_verification .stolen").html(values[ 1 ] ? "true" : "false");
         })
         .catch(e => {
             console.error(e);

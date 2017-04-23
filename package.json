@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "truffle": "./node_modules/.bin/truffle",
-    "testrpc": "./node_modules/.bin/testrpc",
+    "testrpc": "./node_modules/.bin/testrpc -a 3",
     "webpack": "./node_modules/.bin/webpack",
     "srv": "./node_modules/.bin/webpack-dev-server --progress --colors --port 8081",
     "ipfs": "./ipfs_daemon.sh"
