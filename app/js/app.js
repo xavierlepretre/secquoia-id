@@ -1,4 +1,3 @@
-"use strict";
 
 const truffleContract = require("truffle-contract");
 const ethUtil = require("ethereumjs-util");
@@ -15,8 +14,8 @@ const Identity = truffleContract(identityJson);
 Promise.promisifyAll(DAG.DAGLink, { suffix: "Promise" });
 Promise.promisifyAll(DAG.DAGNode, { suffix: "Promise" });
 
-Promise.promisifyAll(web3.eth, { suffix: "Promise" });
-Identity.setProvider(web3.currentProvider);
+// Promise.promisifyAll(web3.eth, { suffix: "Promise" });
+// Identity.setProvider(web3.currentProvider);
 
 const $ = require("jquery");
 const cityHall = require("./city_hall.js");
@@ -28,7 +27,7 @@ require("file-loader?name=../night_club.html!../night_club.html");
 
 $(document).ready(function() {
     if (typeof web3 === "undefined") {
-        web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        web3 = new Web3(new Web3.providers.HttpProvider("http://geth.b9lab.com:8549"));
     }
 
     Promise.promisifyAll(web3.eth, { suffix: "Promise" });
